@@ -4,6 +4,7 @@ import { app } from './firebase';
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
   const provider = new GoogleAuthProvider();
@@ -11,12 +12,14 @@ export default function Home() {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
+  useEffect(() => {
+    if (user)
+      router.push('/dashboard');
+  }, [user])
+
   if (loading) 
     return <div>Loading...</div>;
-  
-  if (user)
-    router.push('/dashboard');
-
+    
   async function signIn() {
     const res = await signInWithPopup(auth, provider);
   }
