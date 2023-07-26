@@ -6,7 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function Home() {
+export default function Login() {
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
   const [user, loading] = useAuthState(auth);
