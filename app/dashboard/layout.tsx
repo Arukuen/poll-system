@@ -6,13 +6,13 @@ export default function NavLayout({
     children: React.ReactNode
   }) {
     return (
-        <>
-            <NavBar />
-            <hr className='border-gray-500 mb-10' />
-            <main className='flex flex-column justify-center'>
-                {children}
-            </main>
-        </>
+      <>
+        <NavBar />
+        <hr className='border-gray-500 mb-10' />
+        <main className='flex flex-column justify-center'>
+            {children}
+        </main>
+      </>
     )
   }
   

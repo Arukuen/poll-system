@@ -64,9 +64,20 @@ export default function Dashboard() {
         <h2 className='text-2xl'>Your polls</h2>
         <u><Link href='/public'>View public polls</Link></u>
       </div>
-      {polls.map(({ id, title, owner }) => (
-        <PollListItem id={id} title={title} owner={owner} key={id} />
-      ))}
+      <div>
+        {polls.map(({ id, title, owner }) => (
+          <PollListItem id={id} title={title} owner={owner} key={id} />
+        ))}
+      </div>
+
+      <div className='flex flex-row justify-between items-center mb-4'>
+        <h2 className='text-2xl'>Your polls</h2>
+      </div>
+      <div>
+        {polls.map(({ id, title, owner }) => (
+          <PollListItem id={id} title={title} owner={owner} key={id} />
+        ))}
+      </div>
     </div>
   )
 }
