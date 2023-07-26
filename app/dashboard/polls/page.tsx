@@ -1,4 +1,4 @@
-export default function PublicPolls() {
+export default function Polls() {
     return (
         <>
         </>
