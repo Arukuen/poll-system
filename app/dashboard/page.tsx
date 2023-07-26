@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import { db } from '@/app/firebase';
 import { PollListItem, Poll } from '../components/poll-list';
 import Link from 'next/link';
+import CreatePollForm from '../components/create-poll-form';
 
 
 export type User = {
@@ -26,7 +27,6 @@ export default function Dashboard() {
 
 
   useEffect(() => {
-    
     if (loading) 
       return;
     
@@ -40,8 +40,6 @@ export default function Dashboard() {
       'name': logged_user.displayName || '',
       'photo': logged_user.photoURL || '',
     }
-
-    
 
     const fetchedPolls: Poll[] = [];
     const q = query(collection(db, 'users', user.id, 'polls'));
@@ -59,24 +57,18 @@ export default function Dashboard() {
   }, [logged_user]);
 
   return (
-    <div className='flex flex-col w-3/4'>
-      <div className='flex flex-row justify-between items-center mb-4'>
-        <h2 className='text-2xl'>Your polls</h2>
-        <u><Link href='/public'>View public polls</Link></u>
+    <div className='flex flex-col w-96 gap-10'>
+      <div>
+        <h2 className='text-2xl mb-4'>Create a Poll</h2>
+        <CreatePollForm />
       </div>
       <div>
-        {polls.map(({ id, title, owner }) => (
-          <PollListItem id={id} title={title} owner={owner} key={id} />
-        ))}
-      </div>
-
-      <div className='flex flex-row justify-between items-center mb-4'>
-        <h2 className='text-2xl'>Your polls</h2>
-      </div>
-      <div>
-        {polls.map(({ id, title, owner }) => (
-          <PollListItem id={id} title={title} owner={owner} key={id} />
-        ))}
+        <h2 className='text-2xl mb-4'>Your Current Polls</h2>
+        <div>
+          {polls.map(({ id, title, owner }) => (
+            <PollListItem id={id} title={title} owner={owner} key={id} />
+          ))}
+        </div>
       </div>
     </div>
   )
