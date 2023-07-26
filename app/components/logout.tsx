@@ -20,6 +20,6 @@ export default function Logout() {
   }
 
   return (
-    <button className='border-solid border-white rounded-xl border-2 p-2 mx-2' onClick={() => auth.signOut()}>Logout</button>
+    <button className='border-solid border-white rounded-xl border-2 px-2 py-1 mx-2' onClick={() => auth.signOut()}>Logout</button>
   )
 }
