@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { doc, onSnapshot, setDoc, getDoc, addDoc, arrayUnion, collection } from 'firebase/firestore';
+import { db } from '@/app/firebase';
+import { User } from '../dashboard/page';
 
-export default function CreatePollForm() {
-  let [title, setTitle] = useState('')
-  let [choices, setChoices] = useState(['', ''])
+export default function CreatePollForm(user: User) {
+  let [title, setTitle] = useState('');
+  let [choices, setChoices] = useState(['', '']);
 
   function handleChoiceChange(index: number, event: React.ChangeEvent<HTMLInputElement>) {
-    let newData = [...choices]
+    let newData = [...choices];
     newData[index] = event.target.value;
     setChoices((newData));
   }
@@ -21,16 +24,24 @@ export default function CreatePollForm() {
     setChoices(newData);
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    console.log(event);
-  }
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const userRef = collection(db, 'users', user.id, 'polls');
 
-  console.log(title);
+    await addDoc(userRef, {
+      title: title,
+      choices: choices
+    });
+
+    setTitle('');
+    setChoices(['', '']);
+    console.log(title);
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <div className='flex flex-col gap-2 items-center'>
-        <input name='title' placeholder='Title' className='w-full py-1 px-2 bg-black border-white border-solid border-2 rounded-lg' onChange={(event) => setTitle(event.target.value)} />
+        <input name='title' placeholder='Title' className='w-full py-1 px-2 bg-black border-white border-solid border-2 rounded-lg' value={title} onChange={(event) => setTitle(event.target.value)} />
 
         <div className='flex flex-row items-center mt-3'>
           <span>Choices: </span>
@@ -41,17 +52,16 @@ export default function CreatePollForm() {
         <div className='grid grid-cols-2 gap-3 mt-1 mb-3'>
           {choices.map((choice: string, index: number) => {
             return (
-              <>
+              <div key={index}>
                 <input
                   type='text'
                   name='choice'
                   placeholder={`Choice ${index + 1}`}
-                  key={index}
-                  className='py-1 px-2 bg-black border-white border-solid border-2 rounded-lg'
+                  className='w-full py-1 px-2 bg-black border-white border-solid border-2 rounded-lg'
                   value={choice}
                   onChange={event => handleChoiceChange(index, event)}
                 />
-              </>
+              </div>
             )
           })}
         </div>
