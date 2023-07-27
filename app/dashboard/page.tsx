@@ -1,14 +1,13 @@
 'use client'
 
-import { collection, getDocs, query, onSnapshot } from 'firebase/firestore'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { doc, onSnapshot, setDoc, getDocs, collection, query } from 'firebase/firestore'
+import { getAuth} from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 import { db } from '@/app/firebase';
 import { PollListItem, Poll } from '../components/poll-list';
-import Link from 'next/link';
 import CreatePollForm from '../components/create-poll-form';
 
 
@@ -20,47 +19,78 @@ export type User = {
 
 export default function Dashboard() {
   const auth = getAuth();
-  const [logged_user, loading] = useAuthState(auth);
+  const [loggedUser, loading] = useAuthState(auth);
   const router = useRouter();
-
   const [polls, setPolls] = useState<Poll[]>([]);
+  const [user, setUser] = useState<User>({id: '', name: '', photo: ''});
 
-
+  // Initialization of user
   useEffect(() => {
+    async function addUser(id: string, name: string, photo: string) {
+      const userDoc = doc(db, 'users', id);
+      await setDoc(userDoc, {
+        name: name,
+        photo: photo,
+      });
+    }
+
     if (loading) 
       return;
-    
-    if (!logged_user) {
+
+    // If no user is logged, go back to login page
+    if (!loggedUser) {
       router.push('/');
       return;
     }
+    
+    // Add user to database
+    addUser(
+      loggedUser.uid, 
+      loggedUser.displayName || '', 
+      loggedUser.photoURL || ''
+    );
 
-    let user: User = {
-      'id': logged_user.uid,
-      'name': logged_user.displayName || '',
-      'photo': logged_user.photoURL || '',
-    }
+    // Set the user state for global usage
+    setUser({
+      'id': loggedUser.uid,
+      'name': loggedUser.displayName || '',
+      'photo': loggedUser.photoURL || '',
+    })
+  }, [loggedUser]);
 
-    const fetchedPolls: Poll[] = [];
-    const q = query(collection(db, 'users', user.id, 'polls'));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+
+  // Realtime display of polls 
+  useEffect(() => {
+    // Return when user is still not fetched
+    if (user.id === '') return;
+
+    // Reference to poll collection of the logged user
+    const pollColl = collection(db, 'users', user.id, 'polls');
+
+    // Realtime rendering every time database is updated
+    const unsubscribe = onSnapshot(query(pollColl), (querySnapshot) => {
+      const fetchedPolls: Poll[] = [];
       querySnapshot.forEach((doc) => {
         fetchedPolls.push({
+          id: doc.id,
           title: doc.data().title,
-          owner: user.name,
-          id: doc.id
+          owner: user.name
         });
       });
       setPolls(fetchedPolls);
     });
-    
-  }, [logged_user]);
+
+    // Cleanup
+    return () => {
+      unsubscribe();
+    }
+  }, [user]);
 
   return (
     <div className='flex flex-col w-96 gap-10'>
       <div>
         <h2 className='text-2xl mb-4'>Create a Poll</h2>
-        <CreatePollForm />
+        <CreatePollForm {...user} />
       </div>
       <div>
         <h2 className='text-2xl mb-4'>Your Current Polls</h2>
