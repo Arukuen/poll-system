@@ -41,8 +41,8 @@ export default async function Polls() {
 			<h2 className='text-2xl mb-4'>All Polls</h2>
 			<div>
 				{users.map(({ id, name, photo, polls }) => (
-					polls.map(({ id, title }) => (
-						<PollListItem id={id} title={title} username={name} photo ={photo} key={id} />
+					polls.map((poll) => (
+						<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} key={id} />
 					))
 				))}
 			</div>

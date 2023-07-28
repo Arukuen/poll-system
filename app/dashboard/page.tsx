@@ -95,7 +95,7 @@ export default function Dashboard() {
         <h2 className='text-2xl mb-4'>Your Current Polls</h2>
         <div>
           {user.polls.map(({ id, title }) => (
-            <PollListItem id={id} title={title} username={user.name} photo={user.photo} key={id} />
+            <PollListItem userId={user.id} pollId={id} title={title} username={user.name} photo={user.photo} key={id} />
           ))}
         </div>
       </div>
