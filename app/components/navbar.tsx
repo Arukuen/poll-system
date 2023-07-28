@@ -8,7 +8,7 @@ export default function NavBar() {
       <h1 className='text-3xl font-extrabold'>Poll System</h1>
       <div className='flex flex-row w-60 items-center justify-between'>
         <u><Link href='/dashboard'>Home</Link></u>
-        <u><Link href='/dashboard/polls'>Polls</Link></u>
+        <u><Link href='/dashboard/poll-list'>Polls</Link></u>
         <Logout />
       </div>
     </nav>
