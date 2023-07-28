@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { doc, onSnapshot, setDoc, getDoc, addDoc, arrayUnion, collection } from 'firebase/firestore';
 import { db } from '@/app/firebase';
-import { User } from '../dashboard/page';
+import { User } from '../types';
 
 export default function CreatePollForm(user: User) {
   let [title, setTitle] = useState('');

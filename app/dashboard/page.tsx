@@ -1,28 +1,24 @@
 'use client'
 
-import { doc, onSnapshot, setDoc, getDocs, collection, query } from 'firebase/firestore'
+import { doc, onSnapshot, setDoc, collection, query } from 'firebase/firestore';
 import { getAuth} from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
+
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
+import { User, Poll } from '../types';
 import { db } from '@/app/firebase';
-import { PollListItem, Poll } from '../components/poll-list';
+import { PollListItem } from '../components/poll-list';
 import CreatePollForm from '../components/create-poll-form';
 
-
-export type User = {
-  id: string,
-  name: string,
-  photo: string,
-}
 
 export default function Dashboard() {
   const auth = getAuth();
   const [loggedUser, loading] = useAuthState(auth);
   const router = useRouter();
   const [polls, setPolls] = useState<Poll[]>([]);
-  const [user, setUser] = useState<User>({id: '', name: '', photo: ''});
+  const [user, setUser] = useState<User>({id: '', name: '', photo: '', polls: []});
 
   // Initialization of user
   useEffect(() => {
@@ -52,9 +48,10 @@ export default function Dashboard() {
 
     // Set the user state for global usage
     setUser({
-      'id': loggedUser.uid,
-      'name': loggedUser.displayName || '',
-      'photo': loggedUser.photoURL || '',
+      id: loggedUser.uid,
+      name: loggedUser.displayName || '',
+      photo: loggedUser.photoURL || '',
+      polls: []
     })
   }, [loggedUser]);
 
@@ -74,10 +71,12 @@ export default function Dashboard() {
         fetchedPolls.push({
           id: doc.id,
           title: doc.data().title,
-          owner: user.name
         });
       });
-      setPolls(fetchedPolls);
+      setUser(prevState => ({
+        ...prevState,
+        polls: fetchedPolls
+      }))
     });
 
     // Cleanup
@@ -95,8 +94,8 @@ export default function Dashboard() {
       <div>
         <h2 className='text-2xl mb-4'>Your Current Polls</h2>
         <div>
-          {polls.map(({ id, title, owner }) => (
-            <PollListItem id={id} title={title} owner={owner} key={id} />
+          {user.polls.map(({ id, title }) => (
+            <PollListItem id={id} title={title} username={user.name} photo={user.photo} key={id} />
           ))}
         </div>
       </div>
