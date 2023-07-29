@@ -18,15 +18,15 @@ export default function Login() {
   }, [user])
 
   if (loading) 
-    return <div>Loading...</div>;
+    return <div className='text-center text-4xl'>Loading...</div>;
     
   async function signIn() {
     const res = await signInWithPopup(auth, provider);
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 font-mono">
-      <div className="z-10 w-full max-w-5xl items-center justify-between lg:w-3/5 text-center">
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <div className="w-full items-center justify-between text-center">
         <h1 className="text-3xl font-extrabold text-center">Poll System</h1>
         <button className="bg-slate-300 text-black rounded-md p-3 m-10 text-base" onClick={signIn}>Sign In With Google</button>
       </div>
