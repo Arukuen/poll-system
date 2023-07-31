@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [loggedUser, loading] = useAuthState(auth);
   const router = useRouter();
   const [polls, setPolls] = useState<Poll[]>([]);
-  const [user, setUser] = useState<User>({id: '', name: '', photo: '', polls: []});
+  const [user, setUser] = useState<User>({id: '', name: '', photo: ''});
 
   // Initialization of user
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function Dashboard() {
       router.push('/');
       return;
     }
-    
+    console.log('user useeffect')
     // Add user to database
     addUser(
       loggedUser.uid, 
@@ -51,7 +51,6 @@ export default function Dashboard() {
       id: loggedUser.uid,
       name: loggedUser.displayName || '',
       photo: loggedUser.photoURL || '',
-      polls: []
     })
   }, [loggedUser]);
 
@@ -61,11 +60,13 @@ export default function Dashboard() {
     // Return when user is still not fetched
     if (user.id === '') return;
 
+    console.log('useeffect');
     // Reference to poll collection of the logged user
     const pollColl = collection(db, 'users', user.id, 'polls');
 
     // Realtime rendering every time database is updated
     const unsubscribe = onSnapshot(query(pollColl), (querySnapshot) => {
+      console.log('onsnapshot');
       const fetchedPolls: Poll[] = [];
       querySnapshot.forEach((doc) => {
         fetchedPolls.push({
@@ -73,16 +74,12 @@ export default function Dashboard() {
           title: doc.data().title,
         });
       });
-      setUser(prevState => ({
-        ...prevState,
-        polls: fetchedPolls
-      }))
+      setPolls(fetchedPolls);
     });
+  }, [user]);
 
-    // Cleanup
-    return () => {
-      unsubscribe();
-    }
+  useEffect(() => {
+    console.log(user);
   }, [user]);
 
   return (
@@ -94,7 +91,7 @@ export default function Dashboard() {
       <div>
         <h2 className='text-2xl mb-4'>Your Current Polls</h2>
         <div>
-          {user.polls.map(({ id, title }) => (
+          {polls.map(({ id, title }) => (
             <PollListItem userId={user.id} pollId={id} title={title} username={user.name} photo={user.photo} key={id} />
           ))}
         </div>

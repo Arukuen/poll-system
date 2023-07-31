@@ -2,7 +2,7 @@ export type User = {
     id: string,
     name: string,
     photo: string,
-    polls: Poll[],
+    polls?: Poll[],
   }
   
   export type Poll = {
