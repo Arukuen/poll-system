@@ -23,6 +23,7 @@ async function fetchAllPolls() {
 		const pollQuery = query(collection(db, 'users', user.id, 'polls'));
 		const pollSnapshot = await getDocs(pollQuery);
 		pollSnapshot.forEach((doc) => {
+			if (!user.polls) return;
 			user.polls.push({
 				id: doc.id,
 				title: doc.data().title
@@ -41,9 +42,12 @@ export default async function Polls() {
 			<h2 className='text-2xl mb-4'>All Polls</h2>
 			<div>
 				{users.map(({ id, name, photo, polls }) => (
-					polls.map((poll) => (
+					polls 
+					? polls.map((poll) => (
 						<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} key={id} />
 					))
+					:
+						null
 				))}
 			</div>
 		</div>
