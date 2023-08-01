@@ -43,11 +43,12 @@ export default async function Polls() {
 			<div>
 				{users.map(({ id, name, photo, polls }) => (
 					polls 
-					? polls.map((poll) => (
+					? 
+					polls.map((poll) => (
 						<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} key={id} />
 					))
 					:
-						null
+					null
 				))}
 			</div>
 		</div>
