@@ -27,9 +27,9 @@ export default function CreatePollForm(user: User) {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const userRef = collection(db, 'users', user.id, 'polls');
+    const pollRef = collection(db, 'users', user.id, 'polls');
 
-    await addDoc(userRef, {
+    await addDoc(pollRef, {
       title: title,
       question: question,
       choices: choices,
@@ -66,7 +66,7 @@ export default function CreatePollForm(user: User) {
             )
           )}
         </div>
-        <button className='bg-white text-black font-semibold rounded-xl px-2 py-1 mx-2 hover:bg-slate-200' type='submit'>Submit</button>
+        <button className='w-full bg-white text-black font-semibold rounded-xl px-2 py-1 hover:bg-slate-200' type='submit'>Submit</button>
       </div>
     </form>
   )
