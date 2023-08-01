@@ -8,6 +8,7 @@ export type User = {
   export type Poll = {
     id: string,
     title: string,
+    question?: string,
     choices?: string[],
     votes?: Vote[],
   }
