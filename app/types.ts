@@ -14,8 +14,8 @@ export type User = {
   }
   
   export type Vote = {
-    user: User,
-    reason: string,
-    vote_index: number,
+    userId: number,
+    reason?: string,
+    choiceIndex: number,
   }
   
