@@ -27,6 +27,10 @@ export default function CreatePollForm(user: User) {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (title === '' || question === '')
+      alert('Please fill all the fields.');
+      return;
+
     const pollRef = collection(db, 'users', user.id, 'polls');
 
     await addDoc(pollRef, {

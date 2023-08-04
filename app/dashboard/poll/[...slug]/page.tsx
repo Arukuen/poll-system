@@ -75,7 +75,11 @@ export default function Page({ params }: { params: { slug: string[] } }) {
   }, [user]);
 
   async function handleSubmit(e:React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+    e.preventDefault();
+    if (!choiceIndex) {
+      alert('Please choose an option.');
+      return;
+    }
     const voteRef = doc(db, 'users', ownerId, 'polls', pollId, 'votes', user.id);
     await setDoc(voteRef, {
       name: user.name,
