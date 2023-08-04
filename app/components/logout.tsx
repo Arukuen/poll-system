@@ -14,11 +14,6 @@ export default function Logout() {
   if (loading) 
     return <div className='border-solid border-white rounded-xl border-2 p-2 mx-2'>Logging in...</div>;
 
-  if (!user) {
-    router.push('/');
-    <div>Sign in to continue.</div>;
-  }
-
   return (
     <button className='bg-white text-black hover:bg-slate-200 rounded-xl p-2 mx-2 font-semibold' onClick={() => auth.signOut()}>Logout</button>
   )

@@ -21,7 +21,12 @@ export default function Login() {
     return <div className='text-center text-4xl'>Loading...</div>;
     
   async function signIn() {
-    const res = await signInWithPopup(auth, provider);
+    try {
+      const res = await signInWithPopup(auth, provider);
+    }
+    catch {
+      return <div className='text-center text-4xl'>Reload the page</div>;
+    }
   }
 
   return (
