@@ -66,7 +66,7 @@ export default function CreatePollForm(user: User) {
             )
           )}
         </div>
-        <button className='w-full bg-white text-black font-semibold rounded-xl px-2 py-1 hover:bg-slate-200' type='submit'>Submit</button>
+        <button className='w-full bg-white text-black hover:bg-slate-200 font-semibold rounded-xl px-2 py-1' type='submit'>Submit</button>
       </div>
     </form>
   )
