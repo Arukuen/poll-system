@@ -91,7 +91,7 @@ export default function Page({ params }: { params: { slug: string[] } }) {
     <div className='flex flex-col w-96 gap-10'>
       <div>
         <h2 className='text-2xl mb-4'>{poll?.title}</h2>
-        <p className='text-center text text-lg mb-2'>{poll?.question}</p>
+        <p className='text-center mb-2'>{poll?.question}</p>
         <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
           <div className='grid grid-cols-2 gap-3 mt-1 mb-3'>
           {poll?.choices
@@ -111,13 +111,17 @@ export default function Page({ params }: { params: { slug: string[] } }) {
       <div>
         <h2 className='text-2xl mb-4'>Vote List</h2>
         <div className='flex flex-col'>
-          {poll?.choices
+          {votes.length > 0 
           ?
-          votes.map((vote) => (
-            <VoteListItem {...vote} choiceName={poll.choices ? poll?.choices[vote.choiceIndex] : ''} key={vote.userId} />
-          ))
+            poll?.choices
+            ?
+              votes.map((vote) => (
+                <VoteListItem {...vote} choiceName={poll.choices ? poll?.choices[vote.choiceIndex] : ''} key={vote.userId} />
+              ))
+            :
+              null
           :
-            null
+            <p className='text-center'>No votes yet...</p>
           }
         </div>
       </div>

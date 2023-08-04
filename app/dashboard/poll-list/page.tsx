@@ -41,15 +41,20 @@ export default async function Polls() {
 		<div className='flex flex-col w-96'>
 			<h2 className='text-2xl mb-4'>All Polls</h2>
 			<div>
-				{users.map(({ id, name, photo, polls }) => (
-					polls 
-					? 
-					polls.map((poll) => (
-						<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} key={id} />
+				{users.length > 0 
+				?
+					users.map(({ id, name, photo, polls }) => (
+						polls 
+						? 
+							polls.map((poll) => (
+								<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} key={id} />
+							))
+						:
+							null
 					))
-					:
-					null
-				))}
+				:
+					<p className='text-center'>No polls created yet...</p>
+				}
 			</div>
 		</div>
 	)

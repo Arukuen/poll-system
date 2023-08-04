@@ -91,9 +91,14 @@ export default function Dashboard() {
       <div>
         <h2 className='text-2xl mb-4'>Your Current Polls</h2>
         <div>
-          {polls.map(({ id, title }) => (
-            <PollListItem userId={user.id} pollId={id} title={title} username={user.name} photo={user.photo} key={id} />
-          ))}
+          { polls.length > 0 
+            ?
+              polls.map(({ id, title }) => (
+                <PollListItem userId={user.id} pollId={id} title={title} username={user.name} photo={user.photo} key={id} />
+              ))
+            :
+            <p className='text-center'>No polls created yet...</p>
+          }
         </div>
       </div>
     </div>
