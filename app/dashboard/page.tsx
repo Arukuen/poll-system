@@ -29,10 +29,7 @@ export default function Dashboard() {
         photo: photo,
       });
     }
-
-    if (loading) 
-      return;
-
+    
     // If no user is logged, go back to login page
     if (!loggedUser) {
       router.push('/');

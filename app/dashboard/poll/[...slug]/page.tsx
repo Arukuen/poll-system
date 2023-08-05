@@ -22,14 +22,12 @@ export default function Page({ params }: { params: { slug: string[] } }) {
   const pollId = params.slug[1];
 
   useEffect(() => {
-    if (loading) 
-      return;
-
     // If no user is logged, go back to login page
     if (!loggedUser) {
       router.push('/');
       return;
     }
+    
     // Set the user state for global usage
     setUser({
       id: loggedUser.uid,
