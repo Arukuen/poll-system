@@ -1,4 +1,4 @@
-import { doc, onSnapshot, getDocs, collection, query } from 'firebase/firestore';
+import { getDocs, collection, query } from 'firebase/firestore';
 
 import { db } from '@/app/firebase';
 import { PollListItem } from '@/app/components/poll-list';
