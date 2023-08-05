@@ -21,8 +21,11 @@ export default function Page({ params }: { params: { slug: string[] } }) {
   const ownerId = params.slug[0];
   const pollId = params.slug[1];
 
-  useEffect(() => {
+  useEffect(() => {    
     // If no user is logged, go back to login page
+    if (loading)
+      return;
+
     if (!loggedUser) {
       router.push('/');
       return;
@@ -34,7 +37,7 @@ export default function Page({ params }: { params: { slug: string[] } }) {
       name: loggedUser.displayName || '',
       photo: loggedUser.photoURL || '',
     })
-  }, [loggedUser]);
+  }, [loggedUser, loading]);
 
 
   useEffect(() => {

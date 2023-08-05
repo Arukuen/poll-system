@@ -30,6 +30,9 @@ export default function Dashboard() {
       });
     }
     
+    if (loading)
+    return;
+
     // If no user is logged, go back to login page
     if (!loggedUser) {
       router.push('/');
@@ -48,7 +51,7 @@ export default function Dashboard() {
       name: loggedUser.displayName || '',
       photo: loggedUser.photoURL || '',
     })
-  }, [loggedUser]);
+  }, [loggedUser, loading]);
 
 
   // Realtime display of polls 
