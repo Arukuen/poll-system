@@ -1,4 +1,3 @@
-import { Component, ReactComponentElement, ReactNode } from "react"
 import Logout from "./logout"
 import Link from "next/link"
 
