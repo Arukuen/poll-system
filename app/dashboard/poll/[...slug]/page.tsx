@@ -30,8 +30,6 @@ export default function Page({ params }: { params: { slug: string[] } }) {
       router.push('/');
       return;
     }
-    console.log('user useeffect')
-
     // Set the user state for global usage
     setUser({
       id: loggedUser.uid,
@@ -70,7 +68,6 @@ export default function Page({ params }: { params: { slug: string[] } }) {
         })
       });
       setVotes(votesList);
-      console.log(votesList);
     });
   }, [user]);
 
@@ -87,7 +84,6 @@ export default function Page({ params }: { params: { slug: string[] } }) {
       choiceIndex: choiceIndex
     });
     setChoiceIndex(undefined);
-    console.log('sent');
   }
 
 
