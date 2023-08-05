@@ -73,7 +73,7 @@ export default function Page({ params }: { params: { slug: string[] } }) {
 
   async function handleSubmit(e:React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!choiceIndex) {
+    if (choiceIndex === undefined) {
       alert('Please choose an option.');
       return;
     }
