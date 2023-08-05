@@ -47,7 +47,7 @@ export default async function Polls() {
 						polls 
 						? 
 							polls.map((poll) => (
-								<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} key={id} />
+								<PollListItem userId={id} pollId={poll.id} title={poll.title} username={name} photo ={photo} deletePoll={null} key={id} />
 							))
 						:
 							null

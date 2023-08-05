@@ -1,6 +1,6 @@
 'use client'
 
-import { doc, onSnapshot, setDoc, collection, query } from 'firebase/firestore';
+import { doc, onSnapshot, setDoc, collection, query, deleteDoc } from 'firebase/firestore';
 import { getAuth} from 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -82,6 +82,10 @@ export default function Dashboard() {
     console.log(user);
   }, [user]);
 
+  async function deletePoll(userId: string, pollId: string) {
+    await deleteDoc(doc(db, 'users', userId, 'polls', pollId));
+  }
+
   return (
     <div className='flex flex-col w-96 gap-10'>
       <div>
@@ -94,7 +98,7 @@ export default function Dashboard() {
           { polls.length > 0 
             ?
               polls.map(({ id, title }) => (
-                <PollListItem userId={user.id} pollId={id} title={title} username={user.name} photo={user.photo} key={id} />
+                <PollListItem userId={user.id} pollId={id} title={title} username={user.name} photo={user.photo} deletePoll={deletePoll} key={id} />
               ))
             :
             <p className='text-center'>No polls created yet...</p>
