@@ -4,6 +4,7 @@ import { db } from '@/app/firebase';
 import { PollListItem } from '@/app/components/poll-list';
 import { User } from '@/app/types';
 
+export const revalidate = 0;
 
 async function fetchAllPolls() {
 	const users: User[] = [];
